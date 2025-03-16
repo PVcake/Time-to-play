@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Basketball Stats Tracker</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Basketball Stats Tracker</h1>
+        </header>
+        
+        <main>
+            <div class="games-section">
+                <div class="games-header">
+                    <h2>Games</h2>
+                    <button id="create-game-btn" class="btn primary">Create New Game</button>
+                </div>
+                
+                <div id="games-list" class="games-list">
+                    <!-- Games will be displayed here -->
+                    <p id="no-games-message">No games yet. Create a new game to get started!</p>
+                </div>
+            </div>
+            
+            <div id="game-details" class="game-details hidden">
+                <div class="game-details-header">
+                    <h2 id="game-title">Game Title</h2>
+                    <p id="game-date">Date</p>
+                    <button id="add-player-btn" class="btn secondary">Add Player</button>
+                    <button id="back-to-games-btn" class="btn secondary">Back to Games</button>
+                </div>
+                
+                <div class="team-tabs">
+                    <button id="dashboard-tab" class="team-tab active">Dashboard</button>
+                    <button id="team-a-tab" class="team-tab">Team A</button>
+                    <button id="team-b-tab" class="team-tab">Team B</button>
+                </div>
+                
+                <!-- Dashboard Content -->
+                <div id="dashboard-container" class="dashboard-container">
+                    <div id="scoreboard" class="scoreboard">
+                        <!-- Scoreboard will appear here -->
+                    </div>
+                    <div id="team-comparison" class="team-comparison">
+                        <!-- Team comparison table will appear here -->
+                    </div>
+                </div>
+                
+                <div id="players-container" class="players-container">
+                    <!-- Player cards will be displayed here -->
+                    <p id="no-players-message">No players yet. Add players to track their stats!</p>
+                </div>
+            </div>
+        </main>
+        
+        <!-- Create Game Modal -->
+        <div id="create-game-modal" class="modal hidden">
+            <div class="modal-content">
+                <h2>Create New Game</h2>
+                <form id="create-game-form">
+                    <div class="form-group">
+                        <label for="game-title-input">Game Title:</label>
+                        <input type="text" id="game-title-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="team-a-name">Team A Name:</label>
+                        <input type="text" id="team-a-name" value="Team A">
+                    </div>
+                    <div class="form-group">
+                        <label for="team-b-name">Team B Name:</label>
+                        <input type="text" id="team-b-name" value="Team B">
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" id="cancel-create-game" class="btn secondary">Cancel</button>
+                        <button type="submit" class="btn primary">Create</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+        <!-- Add Player Modal -->
+        <div id="add-player-modal" class="modal hidden">
+            <div class="modal-content">
+                <h2>Add Player</h2>
+                <form id="add-player-form">
+                    <div class="form-group">
+                        <label for="player-name-input">Player Name:</label>
+                        <input type="text" id="player-name-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="player-team-select">Team:</label>
+                        <select id="player-team-select" required>
+                            <option value="teamA" selected>Team A</option>
+                            <option value="teamB">Team B</option>
+                        </select>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" id="cancel-add-player" class="btn secondary">Cancel</button>
+                        <button type="submit" class="btn primary">Add</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+        <!-- Edit Player Modal -->
+        <div id="edit-player-modal" class="modal hidden">
+            <div class="modal-content">
+                <h2>Edit Player</h2>
+                <form id="edit-player-form">
+                    <div class="form-group">
+                        <label for="edit-player-name">Player Name:</label>
+                        <input type="text" id="edit-player-name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-player-team">Team:</label>
+                        <select id="edit-player-team" required>
+                            <option value="teamA">Team A</option>
+                            <option value="teamB">Team B</option>
+                        </select>
+                    </div>
+                    <input type="hidden" id="edit-player-id">
+                    <div class="form-actions">
+                        <button type="button" id="cancel-edit-player" class="btn secondary">Cancel</button>
+                        <button type="submit" class="btn primary">Save</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+        <!-- Confirm Delete Player Modal -->
+        <div id="confirm-delete-modal" class="modal hidden">
+            <div class="modal-content">
+                <h2>Delete Player</h2>
+                <p>Are you sure you want to delete this player? This action cannot be undone.</p>
+                <input type="hidden" id="delete-player-id">
+                <div class="form-actions">
+                    <button type="button" id="cancel-delete-player" class="btn secondary">Cancel</button>
+                    <button type="button" id="confirm-delete-player" class="btn danger">Delete</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Confirm Delete Game Modal -->
+        <div id="confirm-delete-game-modal" class="modal hidden">
+            <div class="modal-content">
+                <h2>Delete Game</h2>
+                <p>Are you sure you want to delete this game and all its player statistics? This action cannot be undone.</p>
+                <input type="hidden" id="delete-game-id">
+                <div class="form-actions">
+                    <button type="button" id="cancel-delete-game" class="btn secondary">Cancel</button>
+                    <button type="button" id="confirm-delete-game" class="btn danger">Delete</button>
+                </div>
+            </div>
+        </div>
+        
+        <div id="modal-overlay" class="modal-overlay hidden"></div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
